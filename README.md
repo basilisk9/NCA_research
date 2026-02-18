@@ -11,6 +11,9 @@ Each folder = one experiment/direction.
 | `Binary_addition/` | NCA learns to add binary numbers | Works |
 | `generalization_limits/` | NCA learns to generalize to add numbers 100 - 999 when trained on data from 0 - 99 | Works |
 | `hebbian_learning_nca/` | NCA trained on Hebbian Learning | Failed | 
+| `time_grid_scaling/` | Testing training time when grid size increases | Same training time |
+| `computational_NCA/logic_gates` | NCA learns logic gates then generalizes to 16x training data | Trained and 100% accuracy on unseen data |
+| `computational_NCA/heat_diffusion` | Train an NCa to figure out heat diffusion rules when only given input and target | Works and generalizes |
 
 ## Quick start
 ### Binary addition
@@ -27,6 +30,19 @@ cd generalization_limits
 python 2_digit_training.py
 cd testing_generalized_weights
 python 3_digit_generalize_test.py
+```
+
+### Time Grid Scaling
+``` bash
+cd time_grid_scaling
+python grid_scaling.py
+```
+
+### Logic Gates
+``` bash
+cd computational_NCA/logic_gates
+python train_logic_gates.py
+python test_logic_gates.py
 ```
 
 ## Files in each folder
@@ -48,10 +64,20 @@ python 3_digit_generalize_test.py
  - `Documentation.md` - Documentation of experiment and my thoughts on why it failed
  - `raw_notes.md` - My raw notes describing my thinking during and after experiment
  
-## Docs
+### time_grid_scaling
+ - `raw_notes.md` - Notes and results of experiment
+ - `Documentation.md` - Documentation of experiment and what it reveals about NCA's parallel stucture
+ - `grid_scaling.py` - code that times time to train NCA with different grid sizes
 
-- `journey.md` - full timeline of what I did
-- `ideas_and_brain_dump.md` - raw braindump of ideas to explore
+### logic_gates
+ - `Documentation.md` - Experiment results and significance of experiment
+ - `train_logic_gates.py` - Train NCA, uses variable grid size that adds noise to force generalization
+ - `test_logic_gates.py` - Test the trained weights on 16x training data
+
+### heat_diffusion
+ - `Documentation.md` - Experiment results and significance is physics
+ - `train_heat_diffusion` - Code to train heat diffusion. Gives NCA random input and target is calculated for diffusion after 5 steps
+ - `test_heat_diffusion` - Test accuracy on seen and unseen data
 
 ## Key findings
 
@@ -60,3 +86,7 @@ python 3_digit_generalize_test.py
 - Can't skip steps (nested tanh doesn't simplify)
 - Distillation works but doubles training cost
 - 3-digit generalization works (train 0-99, test 100-999 → 99%)
+- training time isn't influenced by grid size
+- NCAs are universal function generalizers for local systems
+- NCA can learn local physics rules if given input and expected output
+- the local weights also generalize beyond training data
