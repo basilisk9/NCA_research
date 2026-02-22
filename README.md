@@ -14,6 +14,7 @@ Each folder = one experiment/direction.
 | `time_grid_scaling/` | Testing training time when grid size increases | Same training time |
 | `computational_NCA/logic_gates` | NCA learns logic gates then generalizes to 16x training data | Trained and 100% accuracy on unseen data |
 | `computational_NCA/heat_diffusion` | Train an NCa to figure out heat diffusion rules when only given input and target | Works and generalizes |
+| `sorting` | NCA learns to sort arrays via value routing and ranking | 60% routing, 95% ranking, 0% generalization |
 
 ## Quick start
 ### Binary addition
@@ -43,6 +44,13 @@ python grid_scaling.py
 cd computational_NCA/logic_gates
 python train_logic_gates.py
 python test_logic_gates.py
+```
+
+### Sorting
+``` bash
+cd computational_NCA/sorting
+python 4_elements_sort.py
+python test_4_elements_sort.py
 ```
 
 ## Files in each folder
@@ -76,8 +84,17 @@ python test_logic_gates.py
 
 ### heat_diffusion
  - `Documentation.md` - Experiment results and significance is physics
- - `train_heat_diffusion` - Code to train heat diffusion. Gives NCA random input and target is calculated for diffusion after 5 steps
- - `test_heat_diffusion` - Test accuracy on seen and unseen data
+ - `train_heat_diffusion.py` - Code to train heat diffusion. Gives NCA random input and target is calculated for diffusion after 5 steps
+ - `test_heat_diffusion.py` - Test accuracy on seen and unseen data
+
+### sorting
+ - `Documentation.md` - 8 experiments, failure taxonomy, and core findings on NCA routing limits
+ - `raw_notes.md` - My thinking on why each experiment fails
+ - `2_element_swap.py` - Basic 2-element sort with preservation loss
+ - `2_element_sort_extended.py` - 2-element with expanded capacity (32 channels, 500k iterations)
+ - `4_elements_sort.py` - 5-phase NCA with Hungarian matching loss
+ - `4_elements_rank.py` - Cross-entropy ranking approach
+ - `test_4_elements_sort.py` - Evaluation script with ±5 tolerance metrics
 
 ## Key findings
 
@@ -90,3 +107,7 @@ python test_logic_gates.py
 - NCAs are universal function generalizers for local systems
 - NCA can learn local physics rules if given input and expected output
 - the local weights also generalize beyond training data
+- Sorting via ranking works (95% on width 4) but doesn't move values
+- Sorting via value routing works (60% on width 4) but precision limited by tanh
+- Neither sorting approach generalizes to unseen widths
+- Multi-phase NCA enables sequential operations single NCA cannot do
