@@ -13,8 +13,9 @@ Each folder = one experiment/direction.
 | `hebbian_learning_nca/` | NCA trained on Hebbian Learning | Failed | 
 | `time_grid_scaling/` | Testing training time when grid size increases | Same training time |
 | `computational_NCA/logic_gates` | NCA learns logic gates then generalizes to 16x training data | Trained and 100% accuracy on unseen data |
-| `computational_NCA/heat_diffusion` | Train an NCa to figure out heat diffusion rules when only given input and target | Works and generalizes |
-| `sorting` | NCA learns to sort arrays via value routing and ranking | 60% routing, 95% ranking, 0% generalization |
+| `computational_NCA/heat_diffusion` | Train an NCA to figure out heat diffusion rules when only given input and target | Works and generalizes |
+| `computationa;_NCA_/heat_diffusion_generalize_limits` | Train an NCA on 1 porward pass and test generalization across time and space | Generalized | 
+| `sorting` | NCA learns to sort arrays via value routing and ranking | 60% routing, 95% ranking, 0% generalization , 100% gated routing 85% gated routing generalization|
 
 ## Quick start
 ### Binary addition
@@ -44,6 +45,19 @@ python grid_scaling.py
 cd computational_NCA/logic_gates
 python train_logic_gates.py
 python test_logic_gates.py
+```
+
+### Heat diffusion
+``` bash 
+cd computational_NCA/heat_diffusion
+python train_heat_diffusion.py
+python test_heat_diffusion.py
+```
+
+### Single Step heat diffusion
+``` bash
+cd computational_NCA/heat_diffusion_generalize_limits
+python single_step_NCA.py
 ```
 
 ### Sorting
@@ -92,6 +106,11 @@ python gated_residual_test.py
  - `train_heat_diffusion.py` - Code to train heat diffusion. Gives NCA random input and target is calculated for diffusion after 5 steps
  - `test_heat_diffusion.py` - Test accuracy on seen and unseen data
 
+### heat_diffusion_generalize_limits
+ - `Documentation.md` - Experiment and results with future implications in physics simulation
+ - `variable_steps.py` - Failed architecure to generalize across time
+ - `single_step_NCA` - Train NCA on 1 forward pass and test generalization across time and space
+
 ### sorting
  - `Documentation.md` - 8 experiments, failure taxonomy, and core findings on NCA routing limits
  - `raw_notes.md` - My thinking on why each experiment fails
@@ -119,3 +138,4 @@ python gated_residual_test.py
 - Neither sorting approach generalizes to unseen widths
 - Multi-phase NCA enables sequential operations single NCA cannot do
 - Activation function matters depending on the task 
+- NCA does better with minimal parameters in physics simulations
